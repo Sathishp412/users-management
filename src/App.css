@@ -1,0 +1,17 @@
+.menubar{
+  display: flex;  
+  height: 85vh;
+  
+  flex-direction: row; 
+  font-weight: 700;
+}
+
+.menubar.item{
+  background-color: aquamarine;
+}
+
+
+
+
+
+
