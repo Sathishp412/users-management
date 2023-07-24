@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import MenuBar from "./MenuBar";
+
 import { UserService } from "./UserPage/UserService";
 import { Card } from "primereact/card";
+import "primeicons/primeicons.css";
+
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: string;
@@ -18,6 +21,7 @@ interface Project {
 }
 
 const Home = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -26,19 +30,33 @@ const Home = () => {
 
   return (
     <>
-      <div className="card flex justify-content-center">
+      <div className="card flex justify-content-center ">
         <div>
-          <Card title="User Counts">
+          <Card
+            className="m-3"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "18vh",
+              width: "10vw",
+              backgroundColor: "ButtonFace",
+              background: "linear-gradient(to left, #00800075, white)",
+            }}
+            title="Users"
+            onClick={() => {
+              navigate("/userList");
+            }}
+          >
             <p
-              className="m-0"
+              className=""
               style={{
-                fontSize: 25,
+                fontSize: 20,
                 fontWeight: "bold",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              {users.length}
+              Total: {users.length}
             </p>
           </Card>
         </div>

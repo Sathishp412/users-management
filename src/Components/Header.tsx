@@ -1,8 +1,10 @@
 import React from "react";
+import "primeicons/primeicons.css";
 
 const Header = () => {
   return (
     <div
+      className="pi pi-users"
       style={{
         height: 60,
         backgroundColor: "black",
@@ -12,6 +14,7 @@ const Header = () => {
         alignItems: "center",
         fontWeight: "bold",
         fontSize: 40,
+        width: "auto",
       }}
     >
       User Management

@@ -16,9 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
 import { Toolbar } from "primereact/toolbar";
 import { InputText } from "primereact/inputtext";
-import { InputNumber } from "primereact/inputnumber";
 import { classNames } from "primereact/utils";
-import MenuBar from "../MenuBar";
 
 interface User {
   id: string;
@@ -57,11 +55,15 @@ const UserList = () => {
 
   const [editUserDialog, setEditUserDialog] = useState<boolean>(false);
 
+  const [removeProjectDialog, setremoveProjectDialog] =
+    useState<boolean>(false);
+
   const [selectedUser, setSelectedUser] = useState<User>(emptyUser);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   //let _products = [...location.state];
   console.log("printing " + location.state);
+
   useEffect(() => {
     if (location.state == null) {
       console.log("printing  inside useeffect");
@@ -79,6 +81,12 @@ const UserList = () => {
         <DataTable value={data.projects}>
           <Column field="id" header="Id" sortable></Column>
           <Column field="projectName" header="Project Name" sortable></Column>
+          <Column
+            header="Action"
+            body={projectActionBodyTemplate}
+            exportable={false}
+            style={{ minWidth: "12rem" }}
+          ></Column>
         </DataTable>
       </div>
     );
@@ -92,7 +100,7 @@ const UserList = () => {
       severity: "info",
       summary: "User Expanded",
       detail: event.data.name,
-      life: 1000,
+      life: 3000,
     });
   };
 
@@ -101,8 +109,36 @@ const UserList = () => {
       severity: "success",
       summary: "User Collapsed",
       detail: event.data.name,
-      life: 1000,
+      life: 3000,
     });
+  };
+
+  const projectActionBodyTemplate = (rowData: User) => {
+    return (
+      <React.Fragment>
+        <Button
+          style={{ marginLeft: "12px" }}
+          // icon="pi pi-trash"
+          //rounded
+          // outlined
+          severity="danger"
+          tooltip={"Remove "}
+          tooltipOptions={{
+            position: "bottom",
+            mouseTrack: true,
+            mouseTrackTop: 15,
+          }}
+          onClick={() => confirmRemoveProject(rowData)}
+        >
+          Remove
+        </Button>
+      </React.Fragment>
+    );
+  };
+
+  const confirmRemoveProject = (user: User) => {
+    setUser(user);
+    setremoveProjectDialog(true);
   };
 
   const confirmDeleteUser = (user: User) => {
@@ -112,12 +148,29 @@ const UserList = () => {
   const hideDeleteUserDialog = () => {
     setDeleteUserDialog(false);
   };
+  const hideRemoveProjectDialog = () => {
+    setremoveProjectDialog(false);
+  };
 
   const deleteUser = () => {
     let _users = users.filter((val) => val.id !== user.id);
 
     setUsers(_users);
     setDeleteUserDialog(false);
+    setUser(emptyUser);
+    toast.current?.show({
+      severity: "success",
+      summary: "Successful",
+      detail: "User Deleted",
+      life: 3000,
+    });
+  };
+
+  const deleteProject = () => {
+    let _users = users.filter((val) => val.id !== user.id);
+
+    setUsers(_users);
+    setremoveProjectDialog(false);
     setUser(emptyUser);
     toast.current?.show({
       severity: "success",
@@ -144,6 +197,23 @@ const UserList = () => {
     </React.Fragment>
   );
 
+  const removeProjectDialogFooter = (
+    <React.Fragment>
+      <Button
+        label="No"
+        icon="pi pi-times"
+        outlined
+        onClick={hideRemoveProjectDialog}
+      />
+      <Button
+        label="Yes"
+        icon="pi pi-check"
+        severity="danger"
+        onClick={deleteProject}
+      />
+    </React.Fragment>
+  );
+
   const handleEdit = (user: User) => {
     const [user1] = users.filter((user1) => user1.id == user.id);
     setSelectedUser({ ...user1 });
@@ -156,12 +226,6 @@ const UserList = () => {
     setUser({ ...user });
     setEditUserDialog(true);
   };
-
-  // const actionEditUser = () => {
-  //   console.log("action handle edit");
-  //   return <div>{isEditing &&
-  //   <EditUser setIsEditing={setIsEditing} />}</div>;
-  // };
 
   const actionBodyTemplate1 = (rowData: User) => {
     return (
@@ -279,31 +343,43 @@ const UserList = () => {
     <>
       <Toast ref={toast} />
       <div className="card">
-        <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
-        <DataTable
-          value={users}
-          expandedRows={expandedRows}
-          onRowToggle={(e) => setExpandedRows(e.data)}
-          onRowExpand={onRowExpand}
-          onRowCollapse={onRowCollapse}
-          rowExpansionTemplate={rowExpansionTemplate}
-          dataKey="id"
-          tableStyle={{ minWidth: "60rem" }}
-        >
-          <Column expander={allowExpansion} style={{ width: "5rem" }} />
-          <Column field="id" header="ID"></Column>
-          <Column field="userName" header="Name"></Column>
-          <Column field="companyID" header="Company ID"></Column>
-          <Column field="companyName" header="Company Name"></Column>
-          <Column field="userType" header="User Type"></Column>
-          <Column
-            header="Action"
-            body={actionBodyTemplate1}
-            exportable={false}
-            style={{ minWidth: "12rem" }}
-          ></Column>
-        </DataTable>
-        <div className="btnHome">
+        <Toolbar
+          className="mb-4"
+          left={leftToolbarTemplate}
+          style={{
+            backgroundColor: "ButtonFace",
+            background: "linear-gradient(to left, #00800075, white)",
+          }}
+        ></Toolbar>
+        <div>
+          <DataTable
+            value={users}
+            expandedRows={expandedRows}
+            onRowToggle={(e) => setExpandedRows(e.data)}
+            onRowExpand={onRowExpand}
+            onRowCollapse={onRowCollapse}
+            rowExpansionTemplate={rowExpansionTemplate}
+            dataKey="id"
+            tableStyle={{
+              minWidth: "60rem",
+            }}
+          >
+            <Column expander={allowExpansion} style={{ width: "5rem" }} />
+            <Column field="id" header="ID"></Column>
+            <Column field="userName" header="Name"></Column>
+            <Column field="companyID" header="Company ID"></Column>
+            <Column field="companyName" header="Company Name"></Column>
+            <Column field="userType" header="User Type"></Column>
+            <Column
+              header="Action"
+              body={actionBodyTemplate1}
+              exportable={false}
+              style={{ minWidth: "12rem" }}
+            ></Column>
+          </DataTable>
+        </div>
+
+        <div className="btnHome" style={{ marginTop: "30px" }}>
           <Button severity="success" onClick={() => navigate("/home")}>
             Back to Home
           </Button>
@@ -326,6 +402,28 @@ const UserList = () => {
           {user && (
             <span>
               Are you sure you want to delete <b>{user.userName}</b>?
+            </span>
+          )}
+        </div>
+      </Dialog>
+
+      <Dialog
+        visible={removeProjectDialog}
+        style={{ width: "32rem" }}
+        breakpoints={{ "960px": "75vw", "641px": "90vw" }}
+        header="Confirm"
+        footer={removeProjectDialogFooter}
+        onHide={hideRemoveProjectDialog}
+      >
+        <div className="confirmation-content">
+          <i
+            className="pi pi-exclamation-triangle mr-3"
+            style={{ fontSize: "2rem" }}
+          />
+          {user && (
+            <span>
+              Are you sure you want to remove
+              <b>{user.projects?.filter.name}</b>?
             </span>
           )}
         </div>

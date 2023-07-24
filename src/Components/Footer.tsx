@@ -11,7 +11,7 @@ const Footer = () => {
         justifyContent: "center",
         alignItems: "center",
         fontWeight: "bold",
-        fontSize: 40,
+        fontSize: 25,
       }}
     >
       © Copyright 2023

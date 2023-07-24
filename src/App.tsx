@@ -11,11 +11,7 @@ function App() {
 
   return (
     <div>
-      {/* <Login></Login> */}
-
       <RouteConfig></RouteConfig>
-
-      {/* <DashBoard></DashBoard> */}
     </div>
   );
 }

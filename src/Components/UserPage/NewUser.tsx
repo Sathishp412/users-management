@@ -43,12 +43,7 @@ const NewUser = () => {
   const handleAddUser = (e: any) => {
     e.preventDefault();
     if (!userName || !companyID || !companyName || !userType) {
-      //   return Swal.fire({
-      //     icon: "error",
-      //     title: "Error!",
-      //     text: "All fields are required.",
-      //     showConfirmButton: true,
-      //   });
+      alert("All fields are required.");
     }
     const projectData = [
       {
@@ -60,13 +55,8 @@ const NewUser = () => {
         projectName: "SMAS2",
       },
     ];
-    //setProjects(projectData);
 
     const userlist = [...location.state];
-    // if (location.state !== null) {
-    //   setUsers([location.state]);
-    //   console.log(users);
-    // }
 
     let id = "";
     id = String(userlist.length + 1);
@@ -84,14 +74,6 @@ const NewUser = () => {
     // setUsers(users);
     console.log(userlist);
     navigate("/userList", { state: userlist });
-
-    // Swal.fire({
-    //   icon: "success",
-    //   title: "Added!",
-    //   text: `${userName} 's data has been Added.`,
-    //   showConfirmButton: false,
-    //   timer: 1500,
-    // });
   };
 
   return (
@@ -146,11 +128,6 @@ const NewUser = () => {
         />
 
         <div style={{ marginTop: "30px" }}>
-          {/* <InputText
-            type="submit"
-            value="Add"
-            // onClick={() => navigate("/userList")}
-          /> */}
           <Button type="submit">Add User</Button>
           <Button
             style={{ marginLeft: "12px" }}

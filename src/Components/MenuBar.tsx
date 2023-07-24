@@ -7,6 +7,7 @@ import Header from "./Header";
 import { Menubar } from "primereact/menubar";
 import { useNavigate } from "react-router-dom";
 import { render } from "react-dom";
+import "primeicons/primeicons.css";
 
 const MenuBar = ({ children }: any) => {
   const navigate = useNavigate();
@@ -53,8 +54,15 @@ const MenuBar = ({ children }: any) => {
       >
         <Header></Header>
         <div className="menubar">
-          <Menu model={items}></Menu>
-          <div> {children}</div>
+          <Menu
+            style={{
+              backgroundColor: "lightgray",
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+            model={items}
+          ></Menu>
+          <div style={{ overflow: "auto" }}>{children}</div>
         </div>
         <Footer></Footer>
       </div>

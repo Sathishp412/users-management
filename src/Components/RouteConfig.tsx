@@ -28,17 +28,8 @@ const RouteConfig = () => {
         <BrowserRouter>
           <MenuBar>
             <Routes>
-              {/* <Route index element={<Dashboard />} /> */}
-              {/* <Route path="/" element={<Dashboard />} /> */}
-              {/* <Route index element={<Home />} /> */}
-              {/* <Route path="login" element={<Login />} />
-            <Route path="/dashBoard" element={<DashBoard />} /> */}
-              {/* <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Login />} /> */}
-              {/* <Route path="dashboard" element={<DashBoard />} /> */}
               <Route index element={<Home />} />
               <Route path="/login" element={<Home />} />
-
               <Route path="/home" element={<Home />} />
               <Route path="/userList" element={<UserList />} />
               <Route path="/about" element={<About />} />
